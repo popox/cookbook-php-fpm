@@ -43,7 +43,13 @@ listen = <%= @listen || "/var/run/php-fpm-#{@pool_name}.sock" %>
 ;                 mode is set to 0666
 ;listen.owner = nobody
 ;listen.group = nobody
-listen.mode = 0660
+<% if node['php-fpm']['socket']['owner'] %>
+listen.owner = <%= node['php-fpm']['socket']['owner'] %>
+<% end %>
+<% if node['php-fpm']['socket']['group'] %>
+listen.group = <%= node['php-fpm']['socket']['group'] %>
+<% end %>
+listen.mode = <%= node['php-fpm']['socket']['mode'] || 0660 %>
 
 ; List of ipv4 addresses of FastCGI clients which are allowed to connect.
 ; Equivalent to the FCGI_WEB_SERVER_ADDRS environment variable in the original
